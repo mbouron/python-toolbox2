@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+from toolbox2.worker.ffmpeg import FFmpegWorker
+from toolbox2.action.extract.avinfo_extract import AVInfoAction
+from toolbox2.action.transcode.transcode_dcp import TranscodeDCPAction
+
+import sys
+import logging
+
+
+if __name__ == '__main__':
+
+    logging.basicConfig(level=logging.DEBUG)
+
+    if len(sys.argv) != 2:
+        print 'Usage: transcode-dcp DCP_PATH'
+        exit(1)
+
+    params = {
+        'video_decoder': 'libopenjpeg', #  choose video decoder libopenjpeg (default) or jpeg2000
+        'audio_language': 'fr', #  choose default audio file to use based on language fr (default), en, ...
+        'decoding_threads': 0, #  number of threads dedicated to decoding 0 (all available), 1 (default), ...
+        'encoding_threads': 0, #  number of threads dedicated to encoding 0 (all available), 1 (default), ...
+        'container_hinting': 1, #  hint container for streaming
+    }
+
+    action = TranscodeDCPAction(logging, '/tmp/', 'tmp-dcp', params)
+    action.add_input_resource(1, {'path': sys.argv[1]})
+    action.run()
