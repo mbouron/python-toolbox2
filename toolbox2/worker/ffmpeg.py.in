@@ -35,9 +35,23 @@ class FFmpegWorker(Worker):
         def __init__(self, path, params=None, avinfo=None):
             Worker.InputFile.__init__(self, path, params)
             self.avinfo = avinfo
+            self.video_opts = self.params.get('video_opts', [])
+            self.audio_opts = self.params.get('audio_opts', [])
+            self.format_opts = self.params.get('format_opts', [])
 
         def get_args(self):
-            return ['-i', self.path]
+            args = []
+            all_opts = self.video_opts + self.audio_opts + self.format_opts
+
+            for option in all_opts:
+                if isinstance(option, list) or isinstance(option, tuple):
+                    if option[0] == '-threads':
+                        continue
+                    args += list(option)
+                else:
+                    raise FFmpegWorkerException('FFmpeg options must be of type tuple or list')
+
+            return args + ['-i', self.path]
 
     class OutputFile(Worker.OutputFile):
         def __init__(self, path, params=None, output_type='mixed'):
