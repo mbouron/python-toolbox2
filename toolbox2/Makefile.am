@@ -10,6 +10,8 @@ nobase_toolbox2_PYTHON = \
 	action/rewrap/manzanita_rewrap.py \
 	action/transcode/__init__.py \
 	action/transcode/transcode.py \
+	utils/__init__.py \
+	utils/dcp.py \
 	worker/__init__.py \
 	worker/bmx.py \
 	worker/flvtools2.py \
