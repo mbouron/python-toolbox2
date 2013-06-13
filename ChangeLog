@@ -23,6 +23,7 @@ Version 0.9.0~dev
 	* Add unicode errors ignore to the json parse of ffprobe.
 	* Handle audio|video|format options for FFmpeg worker input files.
 	* Add DCP parser.
+	* Add transcode_dcp action.
 
 Version 0.8.1 Released on 2013/01/16
 
